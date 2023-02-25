@@ -9,13 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.16",
     "appwrite": "^10.2.0",
+    "classnames": "^2.3.2",
     "next": "13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.13",
     "eslint": "8.34.0",
-    "eslint-config-next": "13.1.6"
+    "eslint-config-next": "13.1.6",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.7"
   }
 }
