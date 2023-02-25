@@ -1,4 +1,5 @@
 import useUser from '@/hooks/useUser';
+import Link from "next/link";
 
 export default function SideNavigation() {
   const { currentAccount, logout } = useUser();
@@ -17,9 +18,9 @@ export default function SideNavigation() {
       </div>
 
       <nav className="mt-5 px-2">
-        <a
-          href="#"
-          className="group flex items-center px-2 py-2 text-base leading-6 font-semibold rounded-full  font-bold"
+        <Link
+          href="/"
+          className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-semibold rounded-full hover:bg-gray-900 text-white"
         >
           <svg
             className="mr-4 h-6 w-6 "
@@ -35,7 +36,7 @@ export default function SideNavigation() {
             />
           </svg>
           Home
-        </a>
+        </Link>
         <a
           href="#"
           className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-semibold rounded-full hover:bg-gray-900 text-white"
@@ -121,8 +122,8 @@ export default function SideNavigation() {
           </svg>
           Lists
         </a>
-        <a
-          href="#"
+        <Link
+          href="/profile"
           className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-gray-900 text-white"
         >
           <svg
@@ -137,7 +138,7 @@ export default function SideNavigation() {
             <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
           </svg>
           Profile
-        </a>
+        </Link>
         <a
           href="#"
           className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-gray-900 text-white"
@@ -156,7 +157,7 @@ export default function SideNavigation() {
           More
         </a>
 
-        <button className="bg-blue-400 mt-5 text-center text-lg w-full hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
+        <button className="bg-blue-400 mt-5 text-center text-lg w-full hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-full">
           Tweet
         </button>
       </nav>
