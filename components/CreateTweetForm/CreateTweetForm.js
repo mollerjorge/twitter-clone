@@ -6,7 +6,7 @@ import useUser from '@/hooks/useUser';
 
 export default function CreateTweetForm({ onTweetCreated }) {
   const { currentAccount } = useUser();
-  console.log(currentAccount);
+
   const [tweetForm, setTweetForm] = React.useState({
     text: '',
   });
@@ -34,6 +34,7 @@ export default function CreateTweetForm({ onTweetCreated }) {
           text: tweetForm.text,
         }
       );
+      setTweetForm({text: ''})
       onTweetCreated(tweet);
     } catch (error) {
       console.log(error);
@@ -69,9 +70,9 @@ export default function CreateTweetForm({ onTweetCreated }) {
                 <svg
                   className="text-center h-7 w-6"
                   fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -88,9 +89,9 @@ export default function CreateTweetForm({ onTweetCreated }) {
                 <svg
                   className="text-center h-7 w-6"
                   fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -108,9 +109,9 @@ export default function CreateTweetForm({ onTweetCreated }) {
                 <svg
                   className="text-center h-7 w-6"
                   fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -127,9 +128,9 @@ export default function CreateTweetForm({ onTweetCreated }) {
                 <svg
                   className="text-center h-7 w-6"
                   fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >

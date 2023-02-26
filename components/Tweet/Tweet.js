@@ -12,7 +12,7 @@ export default function Tweet({ tweet, onTweetRemoved }) {
     const databases = new Databases(appwriteClient);
 
     try {
-      const response = await databases.deleteDocument(
+      await databases.deleteDocument(
         process.env.NEXT_PUBLIC_DATABASE,
         process.env.NEXT_PUBLIC_TWEETS_COLLECTION,
         tweet.$id
@@ -24,11 +24,11 @@ export default function Tweet({ tweet, onTweetRemoved }) {
   };
   return (
     <div className="p-8">
-      <p className="text-base leading-6 font-medium text-white">
+      <p className="font-medium leading-6 text-base text-white">
         {tweet.username}{' '}
         <span className="text-gray-500">@{tweet.useremail}</span>
       </p>
-      <p className="text-base width-auto font-medium text-white flex-shrink">
+      <p className="flex-shrink font-medium text-base text-white width-auto">
         {tweet.text}
       </p>
 
@@ -38,14 +38,14 @@ export default function Tweet({ tweet, onTweetRemoved }) {
             <div className="flex-1 text-center">
               <a
                 href="#"
-                className="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300"
+                className="flex font-medium items-center leading-6 mt-1 px-3 py-2 rounded-full text-base text-gray-500 w-12 group hover:bg-blue-800 hover:text-blue-300"
               >
                 <svg
-                  className="text-center h-6 w-6"
+                  className="h-6 text-center w-6"
                   fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -54,17 +54,17 @@ export default function Tweet({ tweet, onTweetRemoved }) {
               </a>
             </div>
 
-            <div className="flex-1 text-center py-2 m-2">
+            <div className="flex-1 m-2 py-2 text-center">
               <a
                 href="#"
-                className="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300"
+                className="flex font-medium items-center leading-6 mt-1 px-3 py-2 rounded-full text-base text-gray-500 w-12 group hover:bg-blue-800 hover:text-blue-300"
               >
                 <svg
-                  className="text-center h-7 w-6"
+                  className="text-center w-6 h-7"
                   fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -73,17 +73,17 @@ export default function Tweet({ tweet, onTweetRemoved }) {
               </a>
             </div>
 
-            <div className="flex-1 text-center py-2 m-2">
+            <div className="flex-1 m-2 py-2 text-center">
               <a
                 href="#"
-                className="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300"
+                className="flex font-medium items-center leading-6 mt-1 px-3 py-2 rounded-full text-base text-gray-500 w-12 group hover:bg-blue-800 hover:text-blue-300"
               >
                 <svg
-                  className="text-center h-7 w-6"
+                  className="text-center w-6 h-7"
                   fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -92,17 +92,17 @@ export default function Tweet({ tweet, onTweetRemoved }) {
               </a>
             </div>
 
-            <div className="flex-1 text-center py-2 m-2">
+            <div className="flex-1 m-2 py-2 text-center">
               <a
                 href="#"
-                className="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300"
+                className="flex font-medium items-center leading-6 mt-1 px-3 py-2 rounded-full text-base text-gray-500 w-12 group hover:bg-blue-800 hover:text-blue-300"
               >
                 <svg
-                  className="text-center h-7 w-6"
+                  className="text-center w-6 h-7"
                   fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -110,17 +110,17 @@ export default function Tweet({ tweet, onTweetRemoved }) {
                 </svg>
               </a>
             </div>
-            <div className="flex-1 text-center py-2 m-2">
+            <div className="flex-1 m-2 py-2 text-center">
               <a
                 href="#"
-                className="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300"
+                className="flex font-medium items-center leading-6 mt-1 px-3 py-2 rounded-full text-base text-gray-500 w-12 group hover:bg-blue-800 hover:text-blue-300"
               >
                 <svg
-                  className="text-center h-7 w-6"
+                  className="text-center w-6 h-7"
                   fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -128,22 +128,22 @@ export default function Tweet({ tweet, onTweetRemoved }) {
                 </svg>
               </a>
             </div>
-            <div className="flex-1 text-center py-2 m-2">
+            <div className="flex-1 m-2 py-2 text-center">
               <button
                 onClick={onRemoveTweet}
-                className="w-12 mt-1 bg-transparent curs group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium rounded-full hover:bg-red-100 cursor-pointer hover:text-red-400"
+                className="bg-transparent cursor-pointer flex font-medium items-center leading-6 mt-1 px-3 py-2 rounded-full text-base text-gray-500 w-12 curs group hover:bg-red-100 hover:text-red-400"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
-                  class="w-6 h-6"
+                  className="h-6 w-6"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
                   />
                 </svg>

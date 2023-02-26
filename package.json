@@ -16,7 +16,8 @@
     "next": "13.1.6",
     "node-appwrite": "^8.2.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",

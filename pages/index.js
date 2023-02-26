@@ -14,7 +14,7 @@ export default function Home({ tweets }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const databases = new Databases(appwriteClient);
 
   const tweets = await databases.listDocuments(

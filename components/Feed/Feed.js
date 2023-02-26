@@ -7,7 +7,7 @@ export default function Feed({ tweets: tweetsProp }) {
   const [tweets, setTweets] = React.useState(tweetsProp);
 
   const onTweetCreated = (newTweet) => {
-    setTweets((currTweets) => [newTweet, ...tweets]);
+    setTweets((currTweets) => [newTweet, ...currTweets]);
   };
 
   const onTweetRemoved = (tweetToRemove) => {
@@ -19,6 +19,7 @@ export default function Feed({ tweets: tweetsProp }) {
   const tweetsSortedByCreatedDate = tweets.sort(function (a, b) {
     return new Date(b.$createdAt) - new Date(a.$createdAt);
   });
+
   return (
     <div className="w-1/2 border border-gray-600 h-auto  border-t-0">
       <div className="flex">
@@ -51,7 +52,7 @@ export default function Feed({ tweets: tweetsProp }) {
 
       <div></div>
 
-      {tweets?.map((tweet) => (
+      {tweetsSortedByCreatedDate?.map((tweet) => (
         <Tweet onTweetRemoved={onTweetRemoved} key={tweet.$id} tweet={tweet} />
       ))}
 

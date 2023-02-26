@@ -1,5 +1,10 @@
 import React from 'react';
 
+import { v4 as uuidv4 } from 'uuid';
+import { UserIcon } from '@heroicons/react/24/outline';
+import { Storage } from 'appwrite';
+import appwriteClient from '@/libs/appwrite';
+
 import MainLayout from '@/components/Layouts/MainLayout';
 import useUser from '@/hooks/useUser';
 import { FETCH_STATUS } from '@/utils/constants';
@@ -7,7 +12,7 @@ import { FETCH_STATUS } from '@/utils/constants';
 export default function Profile() {
   const [profileStatus, setProfileStatus] = React.useState(FETCH_STATUS.IDLE);
   const { currentAccount } = useUser();
-  console.log(currentAccount);
+  const [userAvatar, setUserAvatar] = React.useState('');
   const [profileForm, setProfileForm] = React.useState({
     name: '',
     bio: '',
@@ -15,16 +20,31 @@ export default function Profile() {
     error: '',
   });
 
+  const displayUserSettings = React.useCallback(async () => {
+    const storage = new Storage(appwriteClient);
+    try {
+      // Fetch the users avatar using the avatar's id stored in currentAccount.prefs.avatar
+      const usersAvatar = await storage.getFilePreview(
+        process.env.NEXT_PUBLIC_BUCKET_ID,
+        currentAccount.prefs.avatar
+      );
+      setUserAvatar(usersAvatar?.href);
+    } catch (error) {
+      console.log(error);
+    }
+    // When we have the current account, pre fill the form with values
+    setProfileForm({
+      name: currentAccount?.name,
+      bio: currentAccount.prefs?.bio,
+      website: currentAccount.prefs?.website,
+    });
+  }, [currentAccount]);
+
   React.useEffect(() => {
     if (currentAccount) {
-      // When we have the current acount, pre fill the form with values
-      setProfileForm({
-        name: currentAccount?.name,
-        bio: currentAccount.prefs?.bio,
-        website: currentAccount.prefs?.website,
-      });
+      displayUserSettings();
     }
-  }, [currentAccount]);
+  }, [currentAccount, displayUserSettings]);
 
   const onChangeInput = (event) => {
     const {
@@ -43,30 +63,90 @@ export default function Profile() {
     try {
       const response = await fetch('/api/user', {
         method: 'POST',
-        body: JSON.stringify({ ...profileForm, userId: currentAccount.$id }),
+        body: JSON.stringify({
+          avatar: currentAccount.prefs.avatar,
+          ...profileForm,
+          userId: currentAccount.$id,
+        }),
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      const data = await response.json();
+      await response.json();
 
       if (response.status !== 200) {
-        setError(data.error);
         setProfileStatus(FETCH_STATUS.FAIL);
         return;
       }
 
       setProfileStatus(FETCH_STATUS.SUCCESS);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
+
+  const onChangeProfileImage = async (event) => {
+    const avatar = event?.target?.files[0];
+    const avatarId = uuidv4();
+
+    const storage = new Storage(appwriteClient);
+    await storage.createFile(
+      process.env.NEXT_PUBLIC_BUCKET_ID,
+      avatarId,
+      avatar
+    );
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      setUserAvatar(e.target.result);
+    };
+    reader.readAsDataURL(avatar);
+
+    const response = await fetch('/api/user', {
+      method: 'POST',
+      body: JSON.stringify({
+        userId: currentAccount.$id,
+        ...currentAccount?.prefs,
+        avatar: avatarId,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    await response.json();
+  };
+
   return (
     <MainLayout>
       <div className="text-white px-10 py-20 w-1/2 border border-gray-600 h-auto  border-t-0">
         <h1 className="text-xl">Edit Profile</h1>
 
         <form className="flex flex-col mt-6 text-white" onSubmit={onSubmit}>
+          <div className="flex justify-center mt-4">
+            <div className="mb-3 w-full">
+              <label
+                htmlFor="formFile"
+                className="ml-px block pl-4 text-sm font-medium cursor-pointer"
+              >
+                <div
+                  style={{ background: `url('${userAvatar}')` }}
+                  className=" !bg-cover w-32 h-32 rounded-full bg-gray-800 flex items-center justify-center"
+                >
+                  {!userAvatar && (
+                    <UserIcon className="text-gray-400 w-10 h-10" />
+                  )}
+                </div>
+              </label>
+              <input
+                className="hidden relative m-0 w-full min-w-0 flex-auto cursor-pointer rounded-lg border border-solid border-gray-700 bg-transparent "
+                type="file"
+                id="formFile"
+                accept=".jpeg,.jpg,.png"
+                name="avatar"
+                onChange={onChangeProfileImage}
+              />
+            </div>
+          </div>
           <div className="mt-3">
             <label
               htmlFor="name"
