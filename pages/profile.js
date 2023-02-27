@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Locale } from 'appwrite';
 import { v4 as uuidv4 } from 'uuid';
 import { UserIcon } from '@heroicons/react/24/outline';
 import { Storage } from 'appwrite';
@@ -8,15 +9,21 @@ import appwriteClient from '@/libs/appwrite';
 import MainLayout from '@/components/Layouts/MainLayout';
 import useUser from '@/hooks/useUser';
 import { FETCH_STATUS } from '@/utils/constants';
+import Select from '@/components/Select';
 
 export default function Profile() {
+  const locale = new Locale(appwriteClient);
   const [profileStatus, setProfileStatus] = React.useState(FETCH_STATUS.IDLE);
   const { currentAccount } = useUser();
   const [userAvatar, setUserAvatar] = React.useState('');
+  const [countries, setCountries] = React.useState([]);
+  const [languages, setLanguages] = React.useState([]);
   const [profileForm, setProfileForm] = React.useState({
     name: '',
     bio: '',
     website: '',
+    country: '',
+    language: '',
     error: '',
   });
 
@@ -32,11 +39,14 @@ export default function Profile() {
     } catch (error) {
       console.log(error);
     }
+
     // When we have the current account, pre fill the form with values
     setProfileForm({
       name: currentAccount?.name,
       bio: currentAccount.prefs?.bio,
       website: currentAccount.prefs?.website,
+      country: currentAccount.prefs?.country,
+      language: currentAccount.prefs?.language
     });
   }, [currentAccount]);
 
@@ -115,6 +125,25 @@ export default function Profile() {
     });
     await response.json();
   };
+
+  const getCountries = async () => {
+    const { countries } = await locale.listCountries();
+    setCountries(
+      countries.map((country) => ({ value: country, label: country.name }))
+    );
+  };
+  
+  const getLanguages = async () => {
+    const { languages } = await locale.listLanguages();
+    setLanguages(
+      languages.map((language) => ({ value: language, label: language.name }))
+    );
+  };
+
+  React.useEffect(() => {
+    getCountries();
+    getLanguages()
+  }, []);
 
   return (
     <MainLayout>
@@ -205,6 +234,36 @@ export default function Profile() {
                 onChange={onChangeInput}
                 value={profileForm.website}
               />
+            </div>
+            <div className="mt-4">
+              <div className="mt-1">
+                <Select
+                  value={profileForm.country}
+                  onChange={(event) => {
+                    setProfileForm((currProfileForm) => ({
+                      ...currProfileForm,
+                      country: event.target.value,
+                    }));
+                  }}
+                  options={countries}
+                  label="Countries"
+                />
+              </div>
+            </div>
+            <div className="mt-4">
+              <div className="mt-1">
+                <Select
+                  value={profileForm.language}
+                  onChange={(event) => {
+                    setProfileForm((currProfileForm) => ({
+                      ...currProfileForm,
+                      language: event.target.value,
+                    }));
+                  }}
+                  options={languages}
+                  label="Language"
+                />
+              </div>
             </div>
           </div>
 

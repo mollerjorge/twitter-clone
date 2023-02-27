@@ -1,7 +1,6 @@
 import React from "react";
 
 import SideNavigation from '@/components/SideNavigation';
-import WhoToFollow from '@/components/WhoToFollow';
 import Spinner from "@/components/Spinner";
 import useUser from "@/hooks/useUser";
 import { useRouter } from "next/router";
@@ -58,8 +57,6 @@ export default function MainLayout({ children }) {
                 className="h-10 px-10 pr-5 rounded-full text-sm focus:outline-none bg-gray-900 shadow w-full"
               />
             </div>
-
-            <WhoToFollow />
           </div>
         </div>
       </div>
