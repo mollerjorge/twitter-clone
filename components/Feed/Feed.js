@@ -16,6 +16,17 @@ export default function Feed({ tweets: tweetsProp }) {
     );
   };
 
+  const onLikeTweetCallback = (newTweet) => {
+    setTweets((currTweets) =>
+      currTweets.map((tweet) => {
+        if (tweet.$id === newTweet.$id) {
+          return newTweet;
+        }
+        return tweet;
+      })
+    );
+  };
+
   const tweetsSortedByCreatedDate = tweets.sort(function (a, b) {
     return new Date(b.$createdAt) - new Date(a.$createdAt);
   });
@@ -53,7 +64,12 @@ export default function Feed({ tweets: tweetsProp }) {
       <div></div>
 
       {tweetsSortedByCreatedDate?.map((tweet) => (
-        <Tweet onTweetRemoved={onTweetRemoved} key={tweet.$id} tweet={tweet} />
+        <Tweet
+          onLikeTweetCallback={onLikeTweetCallback}
+          onTweetRemoved={onTweetRemoved}
+          key={tweet.$id}
+          tweet={tweet}
+        />
       ))}
 
       <hr className="border-gray-600" />

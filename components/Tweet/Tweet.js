@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { Databases } from 'appwrite';
+import { Databases, Functions } from 'appwrite';
 
 import appwriteClient from '@/libs/appwrite';
 import Modal from '@/components/Modal';
 
-export default function Tweet({ tweet, onTweetRemoved }) {
+export default function Tweet({ tweet, onTweetRemoved, onLikeTweetCallback }) {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
   const onRemoveTweet = async () => {
@@ -20,6 +20,23 @@ export default function Tweet({ tweet, onTweetRemoved }) {
       onTweetRemoved(tweet);
     } catch (error) {
       setIsModalOpen(true);
+    }
+  };
+
+  const onLikeTweet = async () => {
+    try {
+      const functions = new Functions(appwriteClient);
+      await functions.createExecution(
+        '63fbce83c76015587c3e',
+        JSON.stringify({
+          tweetId: tweet.$id,
+          likes: (tweet.likes || 0) + 1,
+        }),
+        true
+      );
+      onLikeTweetCallback({ ...tweet, likes: (tweet.likes || 0) + 1 });
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
@@ -74,22 +91,25 @@ export default function Tweet({ tweet, onTweetRemoved }) {
             </div>
 
             <div className="flex-1 m-2 py-2 text-center">
-              <a
-                href="#"
-                className="flex font-medium items-center leading-6 mt-1 px-3 py-2 rounded-full text-base text-gray-500 w-12 group hover:bg-blue-800 hover:text-blue-300"
+              <button
+                onClick={onLikeTweet}
+                className="flex font-medium items-center leading-6 mt-1 px-3 py-2 rounded-full text-base text-gray-500 group hover:bg-blue-800 hover:text-blue-300"
               >
-                <svg
-                  className="text-center w-6 h-7"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                </svg>
-              </a>
+                <div>
+                  <svg
+                    className="flex text-center w-6 h-7"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                  </svg>
+                </div>
+                <span className="ml-2">{tweet.likes}</span>
+              </button>
             </div>
 
             <div className="flex-1 m-2 py-2 text-center">

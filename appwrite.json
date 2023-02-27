@@ -1,0 +1,21 @@
+{
+    "projectId": "63f69d80e2ed8deaaf37",
+    "projectName": "twitter-clone",
+    "functions": [
+        {
+            "$id": "63fbce83c76015587c3e",
+            "name": "likeTweetById",
+            "runtime": "node-16.0",
+            "path": "functions/likeTweetById",
+            "entrypoint": "src/index.js",
+            "ignore": [
+                "node_modules",
+                ".npm"
+            ],
+            "execute": [],
+            "events": [],
+            "schedule": "",
+            "timeout": 15
+        }
+    ]
+}
