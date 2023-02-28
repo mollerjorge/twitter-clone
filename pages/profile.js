@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Locale } from 'appwrite';
+import { Locale, Avatars } from 'appwrite';
 import { v4 as uuidv4 } from 'uuid';
 import { UserIcon } from '@heroicons/react/24/outline';
 import { Storage } from 'appwrite';
@@ -10,12 +10,16 @@ import MainLayout from '@/components/Layouts/MainLayout';
 import useUser from '@/hooks/useUser';
 import { FETCH_STATUS } from '@/utils/constants';
 import Select from '@/components/Select';
+import classNames from "classnames";
 
 export default function Profile() {
   const locale = new Locale(appwriteClient);
+  const avatars = new Avatars(appwriteClient);
+
   const [profileStatus, setProfileStatus] = React.useState(FETCH_STATUS.IDLE);
   const { currentAccount } = useUser();
   const [userAvatar, setUserAvatar] = React.useState('');
+  const [countryFlag, setCountryFlag] = React.useState('');
   const [countries, setCountries] = React.useState([]);
   const [languages, setLanguages] = React.useState([]);
   const [profileForm, setProfileForm] = React.useState({
@@ -46,7 +50,7 @@ export default function Profile() {
       bio: currentAccount.prefs?.bio,
       website: currentAccount.prefs?.website,
       country: currentAccount.prefs?.country,
-      language: currentAccount.prefs?.language
+      language: currentAccount.prefs?.language,
     });
   }, [currentAccount]);
 
@@ -132,9 +136,10 @@ export default function Profile() {
       countries.map((country) => ({ value: country, label: country.name }))
     );
   };
-  
+
   const getLanguages = async () => {
     const { languages } = await locale.listLanguages();
+
     setLanguages(
       languages.map((language) => ({ value: language, label: language.name }))
     );
@@ -142,7 +147,7 @@ export default function Profile() {
 
   React.useEffect(() => {
     getCountries();
-    getLanguages()
+    getLanguages();
   }, []);
 
   return (
@@ -236,18 +241,31 @@ export default function Profile() {
               />
             </div>
             <div className="mt-4">
-              <div className="mt-1">
+              <div className="mt-1 relative">
                 <Select
                   value={profileForm.country}
-                  onChange={(event) => {
+                  onChange={async (event) => {
                     setProfileForm((currProfileForm) => ({
                       ...currProfileForm,
                       country: event.target.value,
                     }));
+                    const countryCode = countries.find(
+                      (country) => country.value.name === event.target.value
+                    )?.value?.code;
+                    const result = await avatars.getFlag(countryCode);
+                    setCountryFlag(result?.href);
                   }}
                   options={countries}
                   label="Countries"
+                  className={classNames({ '!pl-12': countryFlag })}
                 />
+                {countryFlag && (
+                  <img
+                    src={countryFlag}
+                    alt="country flag"
+                    className="absolute right-0 w-8 bottom-1.5 left-3  border border-white rounded-full"
+                  />
+                )}
               </div>
             </div>
             <div className="mt-4">

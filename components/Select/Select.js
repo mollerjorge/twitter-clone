@@ -1,4 +1,6 @@
-export default function Select({ label, options, onChange, value }) {
+import classNames from 'classnames';
+
+export default function Select({ label, options, onChange, value, className }) {
   return (
     <div>
       <label
@@ -10,8 +12,11 @@ export default function Select({ label, options, onChange, value }) {
       <select
         id="location"
         name="location"
-        className="mt-1 block w-full border-gray-300 rounded-full bg-gray-800 py-3 pl-3 pr-20 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-        onChange={onChange}
+        className={classNames(
+          'mt-1 block w-full border-gray-300 rounded-full bg-gray-800 py-3 pl-3 pr-20 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm',
+          className
+        )}
+        onChange={(event) => onChange(event)}
         value={value}
       >
         {options.map((option) => (
